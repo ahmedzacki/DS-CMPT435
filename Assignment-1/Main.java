@@ -87,8 +87,6 @@ public class Main {
         L.display();
 
 
-        System.out.println("hello ");
-
         
     }
 }
