@@ -26,22 +26,24 @@ public class Main {
         int size = 0;
 
 /**
+ * this Function returns the length of the linked List
+ */
+    public int len(){
+        return this.size;
+    }   
+
+/**
  * This function returns a boolean value 
- * and checks whether the 
+ * and checks whether the the Linkedlist is empty or not 
  */
         public boolean isEmpty(){
-            if (this.size==0){
+            if (len()==0){
                 return true;
             } else {
                 return false; 
             }   
         }
-/**
- * this Function returns the length of the linked List
- */
-        public int len(){
-            return this.size;
-        }
+
 /**
  * Now we are creating a Funtion to insert elements 
  * into the Linkedlist
@@ -49,7 +51,7 @@ public class Main {
         public void insert(int key){
             Node newNode = new Node(key);
 
-            if (isEmpty()==true){
+            if (isEmpty()){
                 this.head = newNode;
             } else {
                 this.tail.next= newNode;
@@ -70,8 +72,7 @@ public class Main {
             System.out.println();
         }
 
-    }
-
+    }  
 
     public static void main(String[] args) {
 
