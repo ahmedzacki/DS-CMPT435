@@ -59,6 +59,7 @@ public class Main {
             this.tail = newNode;
             this.size++;
         }
+
 /**
 * Lets Create a method to display the values
 * in the linked list
@@ -81,12 +82,11 @@ public class Main {
 
         LinkedList L = new LinkedList();
 
-        L.insert(1);
-        L.insert(2);
-        L.insert(3);
-        L.insert(4);
-        L.insert(5);
-
+        L.insert(10);
+        L.insert(20);
+        L.insert(30);
+        L.insert(40);
+        L.insert(50);
         L.display();
         
     }

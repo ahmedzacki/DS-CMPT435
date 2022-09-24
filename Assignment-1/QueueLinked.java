@@ -65,15 +65,25 @@ public class QueueLinked {
 
         if (isEmpty()){
             System.out.println("Queue is Empty");
-            System.exit(-1);
         }
         Node temp = this.front; 
         this.front = this.front.next;
+        this.size--;
+
         if (isEmpty()){
             this.back = null;
-            System.out.println("Stack is Empty");
         }
         return temp.data;
+    }
+
+    // Let's now implement a funtion to return the 
+    //value of the first element from the Queue without deleting the element
+    
+    public int first(){
+        if(isEmpty()){
+            System.out.println("Queue is Empty");
+        }
+        return this.front.data;
     }
 
     // Let's now display the elements in the Queue 
@@ -96,10 +106,15 @@ public class QueueLinked {
         QueueLinked Q = new QueueLinked();
 
         Q.enqueue(20);
+        Q.enqueue(40);
+        Q.enqueue(80);
+        Q.enqueue(90);
         Q.display();
-        Q.dequeue();
+        System.out.println(Q.dequeue());
         Q.display();
-        Q.dequeue();
+        System.out.println(Q.first());
+        Q.display();
+        
     }
     
 }

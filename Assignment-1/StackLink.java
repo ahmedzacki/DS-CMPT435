@@ -64,22 +64,24 @@ public class StackLink {
         this.size++;
     }
 
- /** Let's now create the Pop() method to pop the first element of the Stack
-  * which is also the last element to be pushed. 
+ /** Let's now create the Pop() method to pop the first element of the Stack and remove from the stack 
+  * This is also the last element that was pushed. 
  */   
 
     public int pop(){
 
-        int deletedValue = this.head.data;
+        Node temp = this.head;
 
         if (isEmpty()){
             System.out.println("Stack is Empty");
-        } else {
-            this.head = this.head.next;
-            this.size--;
+            System.exit(-1); // Exit the funtion if the Stack is Empty
         }
-        return deletedValue;
+        this.head = this.head.next;
+        this.size--;
+
+        return temp.data;
     }
+
 
 /** Now let's create the Top() method which will return 
  * the value on the top of the stack but 
@@ -128,7 +130,5 @@ public class StackLink {
         System.out.println(S.top());
         S.display();
         
-
-       
     }
 }
