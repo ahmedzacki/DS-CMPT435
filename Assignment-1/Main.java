@@ -65,6 +65,9 @@ public class Main {
 */
         public void display(){
             Node current = this.head;
+            if (isEmpty()){
+                System.out.println("the Linked List is Empty");
+            }
             while (current!=null){
                 System.out.print(current.data + "-->");
                 current = current.next;
@@ -85,8 +88,6 @@ public class Main {
         L.insert(5);
 
         L.display();
-
-
         
     }
 }

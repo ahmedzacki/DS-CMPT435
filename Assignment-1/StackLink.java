@@ -30,12 +30,19 @@ public class StackLink {
 
 // Lets define the instance variable for our stack 
 
-    Node head;
-    int size = 0;
+    Node head; //top or first element of the Stack 
+    int size = 0; //keeping truck the size of the stack 
+
+/**
+ * this Function returns the length of the Stack
+ */
+    public int len(){
+        return this.size;
+    }  
 
 // Lets Reuse our isEmpty method to check if the Stack is empty or not 
     public boolean isEmpty(){
-        if (this.size==0){
+        if (len()==0){
             return true;
         } else {
             return false; 
@@ -79,18 +86,24 @@ public class StackLink {
  * this will not delete the value from the stack
  */   
     public int top(){
+
         if (isEmpty()){
             System.out.println("Stack is Empty");
+            System.exit(-1); // Here, I'm exiting this function 
+                            // because it throws a "NullPointerException" when the stack is empty
+                            // and the head is null
         } 
         return this.head.data;
     }
-
 
 // Let's now Display the elements in our stack 
 // To see if everything is working by reusing our Display method 
 
     public void display(){
         Node current = this.head;
+        if (isEmpty()){
+            System.out.println("Stack is Empty");
+        }
         while (current!=null){
             System.out.print(current.data + "-->");
             current = current.next;
@@ -114,6 +127,8 @@ public class StackLink {
         S.display();
         System.out.println(S.top());
         S.display();
+        
+
        
     }
 }
