@@ -28,9 +28,9 @@ public class Main {
 /**
  * this Function returns the length of the linked List
  */
-    public int len(){
-        return this.size;
-    }   
+        public int len(){
+            return this.size;
+        }   
 
 /**
  * This function returns a boolean value 
@@ -88,6 +88,7 @@ public class Main {
         L.insert(40);
         L.insert(50);
         L.display();
+        
         
     }
 }
