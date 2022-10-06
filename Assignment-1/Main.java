@@ -2,7 +2,6 @@ public class Main {
 /**
  * Let's create a Node class here for the Linked list  
  */
-
     static class Node {
         
         int data;

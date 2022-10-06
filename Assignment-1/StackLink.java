@@ -2,19 +2,7 @@
 
 public class StackLink {
 
-    /**
-     * Stack DS uses technique called LIFO (Last in First out)
-* some of the properties of stack is 
-* Push() : method to insert elements into the stack
-*Pop() : method to remove and return the head element of the stack
-*Top() : method to only return the head element
-* And some additional methods of my own. 
-*/
 
-/**
-* First we need to reuse our code from the Node class 
-* So we can store element into the stack 
-*/
 
     static class Node {
         
