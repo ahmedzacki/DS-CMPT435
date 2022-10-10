@@ -65,6 +65,9 @@ public class Main {
     }
 //Merge Sort
     public static ArrayList<String> mergeSort(ArrayList<String> str) {
+        if (str == null) {
+            return null;
+        }
         shuffleArrList(str);
         mergeSortCall(str, 0, str.size()-1);
         return str;
@@ -111,6 +114,9 @@ public class Main {
     }
 // Quick Sort
     public static ArrayList<String> quickSort(ArrayList<String> str) {
+        if (str == null) {
+            return null;
+        }
         shuffleArrList(str);
         quickSortCall(str, 0, str.size()-1);
         return str;
