@@ -109,7 +109,45 @@ public class Main {
             str.set(x, tempArray.get(x));
         }
     }
-// Quick Sort 
+// Quick Sort
+    public static ArrayList<String> quickSort(ArrayList<String> str) {
+        shuffleArrList(str);
+        quickSortCall(str, 0, str.size()-1);
+        return str;
+    }
+    public static void quickSortCall(ArrayList<String> str, int leftEndIndex, int rightEndIndex) {
+        if (leftEndIndex<rightEndIndex){
+            int partitionIndex = partition(str, leftEndIndex, rightEndIndex);
+            quickSortCall(str, leftEndIndex, partitionIndex-1);
+            quickSortCall(str, partitionIndex+1, rightEndIndex);
+        }
+    }
+    public static int partition(ArrayList<String> str, int leftEndIndex, int rightEndIndex) {
+        String pivot = str.get(leftEndIndex);
+        int i = leftEndIndex+1;
+        int j = rightEndIndex;
+
+        while(true){
+            while((i<=j) && ((str.get(i).compareTo(pivot))<=0)){
+                i++;
+            }
+            while((i<=j) && ((str.get(j).compareTo(pivot))>0)){
+                j--;
+            }
+            if(i<=j){
+                String temp = str.get(i);
+                str.set(i, str.get(j));
+                str.set(j, temp);
+            } else {
+                break;
+            }
+        }
+        String tempVar2 = str.get(leftEndIndex);
+        str.set(leftEndIndex, str.get(j));
+        str.set(j, tempVar2);
+
+        return j;  
+    }
 
     public static void main(String[] args) {
         // Creating an ArrayList object to store lines of strings
@@ -132,14 +170,17 @@ public class Main {
             e.getStackTrace();
           }
 
-        System.out.println("<<Selection Sort>>");
-        System.out.println("Size of the ArrayList: "+ strArry.size());
-        System.out.println(selectionSort(strArry));
-        System.out.println("<<Insertion Sort>>");
-        System.out.println("Size of the ArrayList: "+ strArry.size());
-        System.out.println(insertionSort(strArry));
-        System.out.println("<<Merge Sort>>");
-        System.out.println("Size of the ArrayList: "+ strArry.size());
-        System.out.println(mergeSort(strArry));   
+        // System.out.println("<<Selection Sort>>");
+        // System.out.println("Size of the ArrayList: "+ strArry.size());
+        // System.out.println(selectionSort(strArry));
+        // System.out.println("<<Insertion Sort>>");
+        // System.out.println("Size of the ArrayList: "+ strArry.size());
+        // System.out.println(insertionSort(strArry));
+        // System.out.println("<<Merge Sort>>");
+        // System.out.println("Size of the ArrayList: "+ strArry.size());
+        // System.out.println(mergeSort(strArry));  
+        // System.out.println("<<Quick Sort>>");
+        // System.out.println("Size of the ArrayList: "+ strArry.size());
+        // System.out.println(quickSort(strArry));  
     }
 }
