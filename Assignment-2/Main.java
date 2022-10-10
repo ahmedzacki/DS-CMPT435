@@ -5,6 +5,9 @@ import java.util.Random;  // For Random Number Calculation
 
 public class Main {
 
+    private static int mergeSortComparisonsCount=0;
+    private static int quickSortComparisonsCount=0;
+
 //Shuffling the ArraList
     public static void shuffleArrList(ArrayList<String> strList) {
         int n = strList.size();
@@ -69,15 +72,16 @@ public class Main {
             return null;
         }
         shuffleArrList(str);
-        mergeSortCall(str, 0, str.size()-1);
+        mergeSort(str, 0, str.size()-1);
+        System.out.println("Number of Comparisons: "+ (mergeSortComparisonsCount));
         return str;
     }
-    public static void mergeSortCall(ArrayList<String> str, int leftEndIndex, int rightEndIndex) {
+    public static void mergeSort(ArrayList<String> str, int leftEndIndex, int rightEndIndex) {
 
         if(leftEndIndex<rightEndIndex){
             int mid = (leftEndIndex+rightEndIndex)/2;
-            mergeSortCall(str, leftEndIndex, mid);
-            mergeSortCall(str, mid+1, rightEndIndex);
+            mergeSort(str, leftEndIndex, mid);
+            mergeSort(str, mid+1, rightEndIndex);
             merge(str, leftEndIndex, mid, rightEndIndex);
         }      
     }
@@ -97,6 +101,7 @@ public class Main {
                 j++;
             }
             tempArrayIndex++;
+            mergeSortComparisonsCount++;
         }
         while (i<= mid){
             tempArray.set(tempArrayIndex, str.get(i));
@@ -118,27 +123,33 @@ public class Main {
             return null;
         }
         shuffleArrList(str);
-        quickSortCall(str, 0, str.size()-1);
+        quickSort(str, 0, str.size()-1);
+        System.out.println("Number of Comparisons: "+ (quickSortComparisonsCount));
         return str;
     }
-    public static void quickSortCall(ArrayList<String> str, int leftEndIndex, int rightEndIndex) {
+    public static void quickSort(ArrayList<String> str, int leftEndIndex, int rightEndIndex) {
         if (leftEndIndex<rightEndIndex){
             int partitionIndex = partition(str, leftEndIndex, rightEndIndex);
-            quickSortCall(str, leftEndIndex, partitionIndex-1);
-            quickSortCall(str, partitionIndex+1, rightEndIndex);
+            quickSort(str, leftEndIndex, partitionIndex-1);
+            quickSort(str, partitionIndex+1, rightEndIndex);
         }
     }
     public static int partition(ArrayList<String> str, int leftEndIndex, int rightEndIndex) {
         String pivot = str.get(leftEndIndex);
         int i = leftEndIndex+1;
         int j = rightEndIndex;
+        int count = 0;
 
         while(true){
             while((i<=j) && ((str.get(i).compareTo(pivot))<=0)){
                 i++;
+                count++;
+                quickSortComparisonsCount++;
             }
             while((i<=j) && ((str.get(j).compareTo(pivot))>0)){
                 j--;
+                count++;
+                quickSortComparisonsCount++;
             }
             if(i<=j){
                 String temp = str.get(i);
@@ -175,6 +186,8 @@ public class Main {
           } catch (Exception e) {
             e.getStackTrace();
           }
+
+//Un-comment the following lines of code to run each of the sorting algorithm 
 
         // System.out.println("<<Selection Sort>>");
         // System.out.println("Size of the ArrayList: "+ strArry.size());
