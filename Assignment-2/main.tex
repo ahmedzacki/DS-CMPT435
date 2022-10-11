@@ -275,9 +275,32 @@ public static int partition(ArrayList<String> str, int leftEndIndex, int rightEn
 // we just then return the position of the partitioned element
     return j;  
 }
-
-
 \end{lstlisting}
+\clearpage
+\section{Results}
+The following table shows the number of comparisons and their asymptotic time complexities. 
 
+Selection Sort O(n2): 
 
+Number of Comparisons: 221445
+
+Number of Comparisons (with Shuffling): 221445
+
+Insertion Sort O(n2): 
+
+Number of Comparisons: 114925
+
+Number of Comparisons (with Shuffling): 109656
+
+Merge Sort O(nlog): 
+
+Number of Comparisons: 5444
+
+Number of Comparisons (with Shuffling): 5407
+
+Quick Sort O(nlogn)--O(n2): 
+
+Number of Comparisons: 6388
+
+Number of Comparisons (with Shuffling): 7686
 \end{document}
