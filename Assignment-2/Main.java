@@ -12,7 +12,7 @@ public class Main {
     public static void shuffleArrList(ArrayList<String> strList) {
         int n = strList.size();
         Random ran = new Random();
-        for(int i=0; i<n; i++){
+        for(int i=0; i<n; i++){ 
             int randomIndex = i + ran.nextInt(n-i);
             String temp = strList.get(randomIndex);
             strList.set(randomIndex, strList.get(i));
@@ -138,17 +138,14 @@ public class Main {
         String pivot = str.get(leftEndIndex);
         int i = leftEndIndex+1;
         int j = rightEndIndex;
-        int count = 0;
 
         while(true){
             while((i<=j) && ((str.get(i).compareTo(pivot))<=0)){
                 i++;
-                count++;
                 quickSortComparisonsCount++;
             }
             while((i<=j) && ((str.get(j).compareTo(pivot))>0)){
                 j--;
-                count++;
                 quickSortComparisonsCount++;
             }
             if(i<=j){
