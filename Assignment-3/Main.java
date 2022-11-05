@@ -23,7 +23,6 @@ public class Main {
          }
          // Scale letterTotal to fit in HASH_TABLE_SIZE.
          int hashCode = (letterTotal * 1) % HASH_TABLE_SIZE;  // % is the "mod" operator
-         // TODO: Experiment with letterTotal * 2, 3, 5, 50, etc.
 
          return hashCode;
     }
