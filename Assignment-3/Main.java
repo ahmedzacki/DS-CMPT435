@@ -2,11 +2,34 @@ import java.io.File; // importing file utility package to manage our file
 import java.util.Scanner; // Importing the Scanner class to read text files
 import java.util.ArrayList; // importing the ArrayList class to store elements
 import java.util.Random; // For Random Number Calculations
+import java.text.DecimalFormat; // Keeping a double number to two decimals
+
+
 
 public class Main {
+    private static final DecimalFormat twoDecimals = new DecimalFormat("0.00");
+    public static final int HASH_TABLE_SIZE = 250;
+
+    public static int makeHashCode(String str) {
+         str = str.toUpperCase();
+         int length = str.length();
+         int letterTotal = 0;
+   
+         // Iterate over all letters in the string, totalling their ASCII values.
+         for (int i = 0; i < length; i++) {
+            char thisLetter = str.charAt(i);
+            int thisValue = (int)thisLetter;
+            letterTotal = letterTotal + thisValue;
+         }
+         // Scale letterTotal to fit in HASH_TABLE_SIZE.
+         int hashCode = (letterTotal * 1) % HASH_TABLE_SIZE;  // % is the "mod" operator
+         // TODO: Experiment with letterTotal * 2, 3, 5, 50, etc.
+
+         return hashCode;
+    }
 
     // Linear search algorithm that return the number of comparisons performed while searching the item
-    public static int search(String targetString, String[] stringArray){
+    public static int linearSearch(String targetString, String[] stringArray){
 
         int comparCount = 0;
         int n = stringArray.length;
@@ -37,13 +60,14 @@ public class Main {
         return comparCount;
     }
     // This method calculates the average number of comparisons used for each search
-    public static void average(int[] array){
+    public static double average(int[] array){
         int sum = 0;
         for (Integer i : array){
             sum += i;
         }
         double avg = sum/array.length;
-        System.out.printf("Average number of Search Comparisons: %.2f", avg); 
+        //System.out.printf("Average number of Search Comparisons: %.2f", avg); 
+        return avg;
     }
 
     public static void main(String[] args) {
@@ -96,25 +120,61 @@ public class Main {
         
         // Searching and storing the comparison results in the arrays
         for (int i=0; i<pickeItems.length; i++){
-            int linearResult = search(pickeItems[i], arr);
+            int linearResult = linearSearch(pickeItems[i], arr);
             int binaryResult = binarySearch(pickeItems[i], arr);
             linearSearchCompArray[i]=linearResult;
             binarySearchCompArray[i]=binaryResult;
         }
+        
         // Printing the number of comparisons used for each linear search and the average
         for(Integer i: linearSearchCompArray)
             System.out.print(i+" ");
         System.out.println(" ");
-        average(linearSearchCompArray);
+        double averageLinearResult = average(linearSearchCompArray);
+        System.out.println("Average number of Linear Search Comparisons (42 items): " + twoDecimals.format(averageLinearResult));
         System.out.println(" ");
 
         // Printing the number of comparisons used for each binary search and the average
         for(Integer i: binarySearchCompArray)
             System.out.print(i+" ");
         System.out.println(" ");
-        average(binarySearchCompArray);
-               
+        double averageBinaryResult = average(binarySearchCompArray);
+        System.out.println("Average number of Binary Search Comparisons (42 items): " + twoDecimals.format(averageBinaryResult));
+        System.out.println(" ");
         
+        
+        // Creating the Hashtable with chaining using my Linked list class
+        Linkedlist[] hashtable = new Linkedlist[HASH_TABLE_SIZE];
+
+        //each index of the hashtable will be represented as a linked list 
+        for(int i=0; i<HASH_TABLE_SIZE; i++){
+            hashtable[i] = new Linkedlist();
+        }
+
+        // Loading magicitems into the hashtable 
+        for(int i=0; i<arr.length; i++){
+            String key = arr[i];
+            int index = makeHashCode(key);
+            hashtable[index].put(key);
+        }
+
+        // Retreiving the 42 picked items from the hash table and 
+        //the number of comparisons used for each item will be stored in  
+        int[] hashComparisonCountArray = new int[pickeItems.length];
+
+        System.out.println("Retrieving the 42 items from the HashTable: ");
+        System.out.println(" ");
+        for (int i=0; i<pickeItems.length; i++){
+            int hashCodeIndex = makeHashCode(pickeItems[i]);
+            int comparisonsUsed = hashtable[hashCodeIndex].get(pickeItems[i]);
+            hashComparisonCountArray[i]=comparisonsUsed;
+            System.out.println(pickeItems[i] + ": " + comparisonsUsed);
+        }
+        System.out.println(" ");
+
+        // Calculating the Average comparions used to search the 42 items in hashgtable
+        double averageHashtableComparisons = average(hashComparisonCountArray);
+        System.out.println("Average number of Binary Search Comparisons (42 items): " + twoDecimals.format(averageHashtableComparisons));
+
     }
-        
 }
