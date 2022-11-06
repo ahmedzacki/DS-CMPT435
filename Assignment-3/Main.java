@@ -65,7 +65,6 @@ public class Main {
             sum += i;
         }
         double avg = sum/array.length;
-        //System.out.printf("Average number of Search Comparisons: %.2f", avg); 
         return avg;
     }
 
@@ -173,7 +172,7 @@ public class Main {
 
         // Calculating the Average comparions used to search the 42 items in hashgtable
         double averageHashtableComparisons = average(hashComparisonCountArray);
-        System.out.println("Average number of Binary Search Comparisons (42 items): " + twoDecimals.format(averageHashtableComparisons));
+        System.out.println("The overall average of comparisons in hashtable: " + twoDecimals.format(averageHashtableComparisons));
 
     }
 }
