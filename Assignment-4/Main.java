@@ -5,11 +5,21 @@ import java.util.ArrayList; // importing the ArrayList class to store elements
 
 public class Main {
 
+    //This method will convert ArrayList String to Array String
+    public String[] toArrayOfString(ArrayList<String> arrayListofStrings) {
+        String[] magicItemsArray = new String[arrayListofStrings.size()];
+        for (int i = 0; i < arrayListofStrings.size(); i++) {
+            magicItemsArray[i] = arrayListofStrings.get(i);
+        }
+        return magicItemsArray;
+    }
+
     public static void main(String[] args) {
-        // Creating an ArrayList object to store lines of strings
+        Main mainClass = new Main();
+        // Creating an ArrayList of String object to store lines of strings
         ArrayList<String> magicItems = new ArrayList<String>();
 
-        // Creating another ArrayList to store the magic items we are searcing 
+        // Creating another ArrayList of String Object to store the magic items we are searcing 
         ArrayList<String> magicItemsFind = new ArrayList<String>();
 
         try {
@@ -45,40 +55,39 @@ public class Main {
             e.getStackTrace();
         }
 
-        // Converting the String ArrayList to String Array
-        String[] magicItemsArray = new String[magicItems.size()];
-        for (int i = 0; i < magicItems.size(); i++) {
-            magicItemsArray[i] = magicItems.get(i);
-        }
+        // Converting the String ArrayList of magicitems to String Array
+        String[] magicItemsArray = mainClass.toArrayOfString(magicItems);
 
         // Converting the magicItemsFind ArrayList to String Array
-        String[] magicItemsFindArray = new String[magicItemsFind.size()];
-        for (int i = 0; i < magicItemsFind.size(); i++) {
-            magicItemsFindArray[i] = magicItemsFind.get(i);
-        }
+        String[] magicItemsFindArray = mainClass.toArrayOfString(magicItemsFind);
 
         // Creating an object of BST class 
         BST binarySearchTree = new BST();
 
+        System.out.println("-------------------------------------------");
         System.out.println("Populating the BST with elements and printing their path");
         // Populating the BST with the magic items 
         for (String eachstring : magicItemsArray) {
             binarySearchTree.insert(eachstring);
         }
 
+        System.out.println("-------------------------------------------");
         System.out.println("Printing the elements in the tree in In-Order-Traversal");
 
         // Printing magic items in In-Order-Traversals
         binarySearchTree.inorder(binarySearchTree.root);
 
+        System.out.println("-------------------------------------------");
         System.out.println("Printing the path of each of the searched element in the BST");
         // Searching all the strings in the magicItemsFindArray one by one
         for (String eachString : magicItemsFindArray) {
             binarySearchTree.search(eachString);
         }
-
+        
+        System.out.println("-------------------------------------------");
         // Calculating the Average comparison count for the searched elements 
-        System.out.println("Average Comparison Count: " + binarySearchTree.avgSearchComparison(binarySearchTree.totalComparisonCount));
+        System.out.println("Average Comparison Count: "
+                + binarySearchTree.avgSearchComparison(binarySearchTree.totalComparisonCount));
 
     }
 }
