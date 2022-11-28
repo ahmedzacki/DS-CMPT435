@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Graph {
+    //Graph Class == Adjacency List Clas
 
     // Creating a Node class for the adjacency list
     public static class Node {
@@ -77,6 +78,17 @@ public class Graph {
 
     }
 
+    // This function will filter a string and return the two vertices where an edge will be created
+    public int[] toFilterString(String string) {
+        //split the string at spaces and get the vertices from the string
+        int[] edge = new int[2];
+        String[] splitLine = string.split(" ");
+        edge[0] = Integer.parseInt(splitLine[2]);
+        edge[1] = Integer.parseInt(splitLine[4]);
+        return edge;
+        
+    }
+
     public static void main(String[] args) {
 
         try {
@@ -130,13 +142,11 @@ public class Graph {
                         // iterate over the edges and add edges to the matrix and the adjacencyList
                         while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
                             //split the string at spaces and get the vertices from the string
-                            String[] parsingLineEdge = tempString.split(" ");
-                            int vertex1 = Integer.parseInt(parsingLineEdge[2]);
-                            int vertex2 = Integer.parseInt(parsingLineEdge[4]);
+                            int[] edgeVertices = adjacencyListGraph.toFilterString(tempString);
                             // Add edge to the matrix
-                            mygraph.addEdge(vertex1, vertex2);
+                            mygraph.addEdge(edgeVertices[0], edgeVertices[1]);
                             //Add edge to the adjacencyList
-                            adjacencyListGraph.createEdge(vertex1, vertex2);
+                            adjacencyListGraph.createEdge(edgeVertices[0], edgeVertices[1]);
                             //Move the scanner to the next line
                             tempString = myReader.nextLine();
                         }
@@ -163,13 +173,11 @@ public class Graph {
                         // iterate over the edges and add edges to the matrix 
                         while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
                             //Split the string at spaces and get remove the vertices from the strings
-                            String[] parsingLineEdge = tempString.split(" ");
-                            int vertex1 = Integer.parseInt(parsingLineEdge[2]);
-                            int vertex2 = Integer.parseInt(parsingLineEdge[4]);
+                            int[] edgeVertices = adjacencyListGraph.toFilterString(tempString);
                             //Create edge b/w two vertices in the matrix
-                            mygraph.addEdgeGroundLevel(vertex1, vertex2);
+                            mygraph.addEdgeGroundLevel(edgeVertices[0], edgeVertices[1]);
                             //Create edge b/w two vertices in the adjacency list
-                            adjacencyListGraph.createEdgeGroundLevel(vertex1, vertex2);
+                            adjacencyListGraph.createEdgeGroundLevel(edgeVertices[0], edgeVertices[1]);
 
                             //Move the scanner to the next line
                             tempString = myReader.nextLine();
