@@ -6,7 +6,119 @@ import java.util.LinkedList;
 public class Graph {
     //Graph Class == Adjacency List Clas
 
-    // Creating a Node class for the adjacency list
+    public static void main(String[] args) {
+
+        try {
+            File myObj = new File("graphs1.txt");
+
+            Scanner myReader = new Scanner(myObj);
+
+            // Start reading the file line by line
+            while (myReader.hasNextLine()) {
+                //Safing the data of the line 
+                String data = myReader.nextLine();
+
+                // Display information about the graph
+                if (data.startsWith("--")) {
+                    System.out.println(data);
+                    System.out.println("");
+
+                }
+
+                // Check if the line starts with "new graph" to create a new matrix for that specific graph
+                if (data.startsWith("new graph")) {
+
+                    // Iterate over the nex few lines to count the vertices 
+                    String tempString = myReader.nextLine();
+                    //Check if the graph starts at vertax zero
+                    String[] stringParts = tempString.split(" ");
+                    Boolean vertexStartsZero = isGroundLevel(stringParts[stringParts.length - 1]);
+
+                    int countVertices = 0;
+                    while (myReader.hasNextLine() & tempString.startsWith("add vertex")) {
+                        countVertices++;
+                        tempString = myReader.nextLine();
+                    }
+
+                    // Create the matrix with total number of vertices as well as Adjacency List
+
+                    if (!vertexStartsZero) {
+                        //New Matrix Object 
+                        Matrix mygraph = new Matrix(countVertices);
+                        //Create Matrix
+                        mygraph.createMatrix();
+
+                        //New AdjacencyList of Class Graph Object
+                        Graph adjacencyListGraph = new Graph();
+
+                        //Create adjacencyList with the given number of vertices (#of vertices=countVertices)
+                        for (int i = 1; i <= countVertices; i++) {
+                            adjacencyListGraph.addVertex(new Node(i));
+                        }
+
+                        // iterate over the edges and add edges to the matrix and the adjacencyList
+                        while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
+                            //split the string at spaces and get the vertices from the string
+                            int[] edgeVertices = adjacencyListGraph.toFilterString(tempString);
+                            // Add edge to the matrix
+                            mygraph.addEdge(edgeVertices[0], edgeVertices[1]);
+                            //Add edge to the adjacencyList
+                            adjacencyListGraph.createEdge(edgeVertices[0], edgeVertices[1]);
+                            //Move the scanner to the next line
+                            tempString = myReader.nextLine();
+                        }
+                        //Print out the matrix 
+                        mygraph.displayMatrix();
+                        System.out.println();
+                        //Print out the adjacency list
+                        adjacencyListGraph.displayAdjacencyList();
+                        System.out.println("------------------------------");
+
+                    } else {
+                        countVertices++;
+                        // Initialize matrix object
+                        Matrix mygraph = new Matrix(countVertices);
+                        // Create actual matrix that starts at zero
+                        mygraph.createGroundLevelMatrix();
+                        //Initialize a New AdjacencyList of Class Graph Object
+                        Graph adjacencyListGraph = new Graph();
+                        //Create adjacencyList with the given number of vertices (#of vertices=countVertices)
+                        for (int i = 1; i <= countVertices; i++) {
+                            adjacencyListGraph.addVertex(new Node(i));
+                        }
+
+                        // iterate over the edges and add edges to the matrix 
+                        while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
+                            //Split the string at spaces and get remove the vertices from the strings
+                            int[] edgeVertices = adjacencyListGraph.toFilterString(tempString);
+                            //Create edge b/w two vertices in the matrix
+                            mygraph.addEdgeGroundLevel(edgeVertices[0], edgeVertices[1]);
+                            //Create edge b/w two vertices in the adjacency list
+                            adjacencyListGraph.createEdgeGroundLevel(edgeVertices[0], edgeVertices[1]);
+
+                            //Move the scanner to the next line
+                            tempString = myReader.nextLine();
+                        }
+                        //Print out the matrix 
+                        mygraph.displayMatrix();
+                        System.out.println();
+                        //Print out the adjacency list
+                        adjacencyListGraph.displayAdjacencyList();
+                        System.out.println("------------------------------");
+                    }
+                }
+
+            }
+            myReader.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+    }
+    // Adjacency List class implimentation
+    
+    // Creating a Node class for the adjacency list/graph class
     public static class Node {
         int vertex;
 
@@ -89,117 +201,8 @@ public class Graph {
         
     }
 
-    public static void main(String[] args) {
-
-        try {
-            File myObj = new File("graphs1.txt");
-
-            Scanner myReader = new Scanner(myObj);
-
-            // Start reading the file line by line
-            while (myReader.hasNextLine()) {
-                //Safing the data of the line 
-                String data = myReader.nextLine();
-
-                // Display information about the graph
-                if (data.startsWith("--")) {
-                    System.out.println(data);
-                    System.out.println("");
-
-                }
-
-                // Check if the line starts with "new graph" to create a new matrix for that specific graph
-                if (data.startsWith("new graph")) {
-
-                    // Iterate over the nex few lines to count the vertices 
-                    String tempString = myReader.nextLine();
-                    //Check if the graph starts at vertax zero
-                    String[] stringParts = tempString.split(" ");
-                    Boolean vertexStartsZero = isGroundLevel(stringParts[stringParts.length - 1]);
-
-                    int countVertices = 0;
-                    while (myReader.hasNextLine() & tempString.startsWith("add vertex")) {
-                        countVertices++;
-                        tempString = myReader.nextLine();
-                    }
-                    
-                    // Create the matrix with total number of vertices as well as Adjacency List
-
-                    if (!vertexStartsZero) {
-                        //New Matrix Object 
-                        Matrix mygraph = new Matrix(countVertices);
-                        //Create Matrix
-                        mygraph.createMatrix();
-
-                        //New AdjacencyList of Class Graph Object
-                        Graph adjacencyListGraph = new Graph();                     
-
-                        //Create adjacencyList with the given number of vertices (#of vertices=countVertices)
-                        for (int i = 1; i <= countVertices; i++) {
-                            adjacencyListGraph.addVertex(new Node(i));
-                        }
-
-                        // iterate over the edges and add edges to the matrix and the adjacencyList
-                        while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
-                            //split the string at spaces and get the vertices from the string
-                            int[] edgeVertices = adjacencyListGraph.toFilterString(tempString);
-                            // Add edge to the matrix
-                            mygraph.addEdge(edgeVertices[0], edgeVertices[1]);
-                            //Add edge to the adjacencyList
-                            adjacencyListGraph.createEdge(edgeVertices[0], edgeVertices[1]);
-                            //Move the scanner to the next line
-                            tempString = myReader.nextLine();
-                        }
-                        //Print out the matrix 
-                        mygraph.displayMatrix();
-                        System.out.println();
-                        //Print out the adjacency list
-                        adjacencyListGraph.displayAdjacencyList();
-                        System.out.println("------------------------------");
-
-                    } else {
-                        countVertices++;
-                        // Initialize matrix object
-                        Matrix mygraph = new Matrix(countVertices);
-                        // Create actual matrix that starts at zero
-                        mygraph.createGroundLevelMatrix();
-                        //Initialize a New AdjacencyList of Class Graph Object
-                        Graph adjacencyListGraph = new Graph();
-                        //Create adjacencyList with the given number of vertices (#of vertices=countVertices)
-                        for (int i = 1; i <= countVertices; i++) {
-                            adjacencyListGraph.addVertex(new Node(i));
-                        }
-
-                        // iterate over the edges and add edges to the matrix 
-                        while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
-                            //Split the string at spaces and get remove the vertices from the strings
-                            int[] edgeVertices = adjacencyListGraph.toFilterString(tempString);
-                            //Create edge b/w two vertices in the matrix
-                            mygraph.addEdgeGroundLevel(edgeVertices[0], edgeVertices[1]);
-                            //Create edge b/w two vertices in the adjacency list
-                            adjacencyListGraph.createEdgeGroundLevel(edgeVertices[0], edgeVertices[1]);
-
-                            //Move the scanner to the next line
-                            tempString = myReader.nextLine();
-                        }
-                        //Print out the matrix 
-                        mygraph.displayMatrix();
-                        System.out.println();
-                        //Print out the adjacency list
-                        adjacencyListGraph.displayAdjacencyList();
-                        System.out.println("------------------------------");
-                    }
-                }
-
-            }
-            myReader.close();
-        } catch (Exception e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-
-    }
-//Matrix class 
+    
+//Matrix class implimentaiton
     public static class Matrix {
         int vertices;
         int matrix[][];
