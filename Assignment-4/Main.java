@@ -47,13 +47,137 @@ public class Main {
                 magicItems.add(linee.replaceAll("[^A-Za-z]", "").toLowerCase());
             }
             myreader.close();
-        //Catch if there are any errors while processing the file
+            //Catch if there are any errors while processing the file
         } catch (Exception e) {
             e.getStackTrace();
         }
     }
+    
+    // This function will check if a graph has a ground level zero vertex
+    public static Boolean isGroundLevel(String groundLevelVertex) {
+        //Converting Char to Interger
+        int charConvertion = Integer.parseInt(groundLevelVertex);
+        if (charConvertion == 0) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    // This function will filter a string and return the two vertices where an edge will be created
+    public static int[] toFilterString(String string) {
+        //split the string at spaces and get the vertices from the string
+        int[] edge = new int[2];
+        String[] splitLine = string.split(" ");
+        edge[0] = Integer.parseInt(splitLine[2]);
+        edge[1] = Integer.parseInt(splitLine[4]);
+        return edge;
+
+    }
 
     public static void main(String[] args) {
+
+        try {
+            File myObj = new File("graphs1.txt");
+
+            Scanner myReader = new Scanner(myObj);
+
+            // Start reading the file line by line
+            while (myReader.hasNextLine()) {
+                //Safing the data of the line 
+                String data = myReader.nextLine();
+
+                // Display information about the graph
+                if (data.startsWith("--")) {
+                    System.out.println(data);
+                    System.out.println();
+                }
+
+                // Check if the line starts with "new graph" to create a new matrix for that specific graph
+                if (data.startsWith("new graph")) {
+
+                    // Create an Adjancecy List 
+                    AdjacencyList adjacencyList = new AdjacencyList();
+
+                    // Iterate over the nex few lines to count the vertices 
+                    String tempString = myReader.nextLine();
+                    //Check if the graph starts at vertax zero which means it is at the ground level 
+                    String[] stringParts = tempString.split(" ");
+                    Boolean vertexStartsZero = isGroundLevel(stringParts[stringParts.length - 1]);
+                    // Start counting the vertices to to create the Matrix later
+                    int countVertices = 0;
+
+                    while (myReader.hasNextLine() & tempString.startsWith("add vertex")) {
+                        //Add a vertex to the AdjacencyList
+                        String line = tempString;
+                        String[] splitString = line.split(" ");
+                        int graphVertex = Integer.parseInt(splitString[stringParts.length - 1]);
+                        adjacencyList.arrayList.add(new LinkedList(graphVertex));
+
+                        //Increate the vertex count and move the scanner to the next line 
+                        countVertices++;
+                        tempString = myReader.nextLine();
+                    }
+
+                    // Create the matrix with the number of vertices (countVertices X countVertices)
+
+                    if (!vertexStartsZero) {
+                        //New Matrix Object 
+                        Matrix matrixGraph = new Matrix(countVertices);
+                        //Create Matrix
+                        matrixGraph.createMatrix();
+
+                        // iterate over the edges and add edges to the matrix and the adjacencyList
+                        while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
+                            //split the string at spaces and get the vertices from the string
+                            int[] edgeVertices = toFilterString(tempString);
+                            // Add edge to the matrix
+                            matrixGraph.addEdge(edgeVertices[0], edgeVertices[1]);
+                            //Add edge to the adjacencyList
+                            adjacencyList.arrayList.get(edgeVertices[0]-1).inputEdge(edgeVertices[1]);
+                            //Move the scanner to the next line
+                            tempString = myReader.nextLine();
+                        }
+                        //Printing the graph in both forms (Matrix & AdjacencyList) 
+                        matrixGraph.displayMatrix();
+                        adjacencyList.displayAdjacencyList();
+
+                    } else {
+                        countVertices++;
+                        // Initialize matrix object
+                        Matrix matrixGraph = new Matrix(countVertices);
+                        // Create actual matrix that starts at zero
+                        matrixGraph.createGroundLevelMatrix();
+
+                        // iterate over the edges and add edges to the matrix and the adjacencyList
+                        while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
+                            //split the string at spaces and get the vertices from the string
+                            int[] edgeVertices = toFilterString(tempString);
+                            // Add edge to the matrix
+                            matrixGraph.addEdge(edgeVertices[0], edgeVertices[1]);
+                            //Add edge to the adjacencyList
+                            adjacencyList.arrayList.get(edgeVertices[0]).inputEdge(edgeVertices[1]);
+                            //Move the scanner to the next line
+                            tempString = myReader.nextLine();
+                        }
+                        //Printing the graph in both forms (Matrix & AdjacencyList) 
+                        matrixGraph.displayMatrix();
+                        adjacencyList.displayAdjacencyList();
+                    }
+                }
+
+            }
+            myReader.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
+
+
+
+
         // Creating an object of BST class from module BST.java in another file
         BST binarySearchTree = new BST();
         // Creating an ArrayList of String object to store lines of strings
@@ -88,4 +212,6 @@ public class Main {
         // Calculating the Average comparison count for the searched elements 
         AvgComparisonCount(binarySearchTree);
     }
+
 }
+

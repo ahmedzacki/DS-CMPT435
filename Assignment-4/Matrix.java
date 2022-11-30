@@ -64,6 +64,7 @@ public class Matrix {
             System.out.print("]");
             System.out.println("");
         }
+        System.out.println();
     }
     
     // this function will create an edge between two vertices 
