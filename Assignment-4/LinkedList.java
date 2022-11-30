@@ -1,31 +1,4 @@
-// import java.util.ArrayList;
-
 public class LinkedList {
-    public static void main(String[] args) {
-        // LinkedList mylink = new LinkedList(4);
-        // LinkedList mylink2 = new LinkedList(0);
-        // mylink2.input(22);
-        // mylink2.input(28);
-        // mylink2.input(26);
-
-
-        // mylink.input(5);
-        // mylink.input(6);
-        // mylink.input(8);
-        // mylink.input(9);
-        // mylink.input(10);
-
-        // ArrayList<LinkedList> arrlist = new ArrayList<>();
-
-        // arrlist.add(mylink);
-        // arrlist.add(mylink2);
-
-        // for (int i = 0; i < arrlist.size(); i++) {
-        //     arrlist.get(i).print();
-        // }
-
-
-    }
     // This Node class will be used to store elements in the linked list
     public class Node {
         int data;
