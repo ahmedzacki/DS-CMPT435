@@ -14,13 +14,13 @@ public class Main {
 
             // Start reading the file line by line
             while (myReader.hasNextLine()) {
-                //Safing the data of the line 
+                //store the data of the line 
                 String data = myReader.nextLine();
 
                 // Display information about the graph
                 displayGraphInfo(data);
 
-                // Check if the line starts with "new graph" to create a new matrix for that specific graph
+                // Check if the line starts with "new graph" to create a new matrix and adjacencylist for that specific graph
                 if (data.startsWith("new graph")) {
 
                     // Create an Adjancecy List 
