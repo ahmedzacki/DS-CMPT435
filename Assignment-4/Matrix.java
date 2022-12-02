@@ -7,31 +7,15 @@ public class Matrix {
         // add number 1 to the numberOfVertices to make room for the matrix representation nicely 
         this.matrix = new int[numberOfVertices + 1][numberOfVertices + 1];
     }
+
     /*
-        * [0,0,1,2,3]
-        * [0,0,0,0,0]
-        * [1,0,0,0,0]
-        * [2,0,0,0,0]
-        * [3,0,0,0,0]
-        */
-    // This function create a Matrix for a graph that starts at vertex zero
-    public void createGroundLevelMatrix() {
-        int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            int k = 2;
-            for (int j = 0; j < n; j++) {
-                if (i < k & j < k) {
-                    matrix[i][j] = 0;
-                } else if (i == 0 & j >= k) {
-                    matrix[i][j] = j - 1;
-                } else if (j == 0 & i >= k) {
-                    matrix[i][j] = i - 1;
-                } else {
-                    matrix[i][j] = 0;
-                }
-            }
-        }
-    }
+    * [0,1,2,3,4]
+    * [1,0,0,0,0]
+    * [2,0,0,0,0]
+    * [3,0,0,0,0]
+    * [4,0,0,0,0]
+    */
+
     // This function create a matrix for a graph that starts at vertex 1
     public void createMatrix() {
         // Length of the Matrix
@@ -51,9 +35,48 @@ public class Matrix {
             }
         }
     }
+    
+    // This function create a Matrix for a graph that starts at vertex zero
+    public void createGroundLevelMatrix() {
+        int n = matrix.length;
+        /*
+        * [0,0,1,2,3]
+        * [0,0,0,0,0]
+        * [1,0,0,0,0]
+        * [2,0,0,0,0]
+        * [3,0,0,0,0]
+    */
+
+        for (int i = 0; i < n; i++) {
+            int k = 2;
+            for (int j = 0; j < n; j++) {
+                if (i < k & j < k) {
+                    matrix[i][j] = 0;
+                } else if (i == 0 & j >= k) {
+                    matrix[i][j] = j - 1;
+                } else if (j == 0 & i >= k) {
+                    matrix[i][j] = i - 1;
+                } else {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+    
+    // this function takes an array of two integer verticies and then creates an edge between them
+    public void addEdge(int[] vertexArray) {
+        // Find the location of both vertices and set their relationship to 1
+        matrix[vertexArray[0]][vertexArray[1]] = 1;
+    }
+
+    // this function takes an array of two integer verticies and then creates an edge between them
+    public void addEdgeGroundLevel(int[] vertexArray) {
+        // Find the location of both vertices and set their relationship to 1
+        matrix[vertexArray[0] + 1][vertexArray[1] + 1] = 1;
+    }
 
     //Display the matrix 
-    public void displayMatrix() {
+    public void display() {
         // Length of the Matrix
         int n = matrix.length;
         for (int i = 0; i < n; i++) {
@@ -65,17 +88,5 @@ public class Matrix {
             System.out.println("");
         }
         System.out.println();
-    }
-    
-    // this function will create an edge between two vertices 
-    public void addEdge(int vertexA, int vertexB) {
-        // Find the location of both vertices and set their relationship to 1
-        matrix[vertexA][vertexB] = 1;
-    }
-
-    // This function will add an edge to the undirected ground level graph since it starts at vertex 0
-    public void addEdgeGroundLevel(int vertexA, int vertexB) {
-        // Find the location of both vertices and set their relationship to 1
-        matrix[vertexA + 1][vertexB + 1] = 1;
     }
 }
