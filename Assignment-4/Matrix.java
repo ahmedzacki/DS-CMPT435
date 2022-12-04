@@ -67,12 +67,15 @@ public class Matrix {
     public void addEdge(int[] vertexArray) {
         // Find the location of both vertices and set their relationship to 1
         matrix[vertexArray[0]][vertexArray[1]] = 1;
+        matrix[vertexArray[1]][vertexArray[0]] = 1;
+
     }
 
     // this function takes an array of two integer verticies and then creates an edge between them
     public void addEdgeGroundLevel(int[] vertexArray) {
         // Find the location of both vertices and set their relationship to 1
         matrix[vertexArray[0] + 1][vertexArray[1] + 1] = 1;
+        matrix[vertexArray[1] + 1][vertexArray[0] + 1] = 1;
     }
 
     //Display the matrix 

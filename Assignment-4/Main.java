@@ -26,6 +26,9 @@ public class Main {
                     // Create an Adjancecy List 
                     AdjacencyList adjacencyList = new AdjacencyList();
 
+                    // Creating an ArrayList to store the verticies of the linked objects graph representation
+                    ArrayList<LinkedObjects> linkObjGraph = new ArrayList<>();
+
                     // Iterate over the nex few lines to count the vertices 
                     String tempString = myReader.nextLine();
 
@@ -35,9 +38,10 @@ public class Main {
                     // Start counting the vertices to to create the Matrix later
                     int countVertices = 0;
 
-                    //this wile loop will jump from one line to another to count the verticies and add verticies to adjacency list
+                    //this wile loop will jump from one line to another to count the verticies and add verticies to adjacency list and the linked Objects
                     while (myReader.hasNextLine() & tempString.startsWith("add vertex")) {
                         adjacencyList.addVertax(tempString);
+                        linkObjGraph.add(new LinkedObjects(getVertex(tempString)));
                         countVertices++;
                         tempString = myReader.nextLine();
                     }
@@ -51,15 +55,32 @@ public class Main {
 
                         // create edges for both graphs
                         while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
-                            // iterate over the edges and add edges to the matrix and the adjacencyList and then display
-                            matrixGraph.addEdge(toFilterString(tempString));
-                            adjacencyList.addEdge(toFilterString(tempString), vertexStartsZero);
+                            // iterate over the edges and add edges to the matrix, the adjacencyList and the linked Objects
+                            // Example => edge (1-2)
+                            int[] edgeVerticies = toFilterString(tempString);
+                            matrixGraph.addEdge(edgeVerticies);
+                            adjacencyList.addEdge(edgeVerticies, vertexStartsZero);
+                            //Add vertex object 2 to vertex object 1 (edgeVerticies[0] - 1 => because Arraylist start storing at index 0 when graph starts at vertex 1)
+                            linkObjGraph.get(edgeVerticies[0] - 1).neighbors
+                                    .add(linkObjGraph.get(edgeVerticies[1] - 1));
+                            //Add vertex object 1 to vertex object 2
+                            linkObjGraph.get(edgeVerticies[1] - 1).neighbors
+                                    .add(linkObjGraph.get(edgeVerticies[0] - 1));
                             tempString = myReader.nextLine();
+
                         }
 
                         //Printing the graph in both forms (Matrix & AdjacencyList) 
                         matrixGraph.display();
                         adjacencyList.display();
+                        System.out.println("Linked Objects(DFS): ");
+                        DFS(linkObjGraph.get(0), linkObjGraph);
+                        System.out.println();
+                        System.out.println();
+
+                        System.out.println("Linked Objects(BFS): ");
+                        BFS(linkObjGraph.get(0), linkObjGraph);
+                        System.out.println();
 
                     } else {
 
@@ -67,22 +88,49 @@ public class Main {
                         Matrix matrixGraph = new Matrix(countVertices);
                         // Create actual matrix that starts at zero
                         matrixGraph.createGroundLevelMatrix();
+
                         //Create edges for both graphs
                         while (myReader.hasNextLine() & tempString.startsWith("add edge")) {
                             // iterate over the edges and add edges to the matrix and the adjacencyList and then display
-                            matrixGraph.addEdgeGroundLevel(toFilterString(tempString));
-                            adjacencyList.addEdge(toFilterString(tempString), vertexStartsZero);
+                            // Example => edge (0-1)
+                            int[] edgeVerticies = toFilterString(tempString);
+                            matrixGraph.addEdgeGroundLevel(edgeVerticies);
+                            adjacencyList.addEdge(edgeVerticies, vertexStartsZero);
+                            //Add vertex object 1 to vertex object 0
+                            linkObjGraph.get(edgeVerticies[0]).neighbors
+                                    .add(linkObjGraph.get(edgeVerticies[1]));
+                            //Add vertex object 0 to vertex object 1
+                            linkObjGraph.get(edgeVerticies[1]).neighbors
+                                    .add(linkObjGraph.get(edgeVerticies[0]));
                             tempString = myReader.nextLine();
                         }
+
                         // Making sure the scanner reads the last line of the file
-                        if (myReader.hasNextLine() == false & tempString.startsWith("add edge")) {
+                        if (!myReader.hasNextLine() & tempString.startsWith("add edge")) {
                             matrixGraph.addEdgeGroundLevel(toFilterString(tempString));
                             adjacencyList.addEdge(toFilterString(tempString), vertexStartsZero);
+                            //Add vertex object 1 to vertex object 0
+                            linkObjGraph.get(toFilterString(tempString)[0]).neighbors
+                                    .add(linkObjGraph.get(toFilterString(tempString)[1]));
+                            //Add vertex object 0 to vertex object 1
+                            linkObjGraph.get(toFilterString(tempString)[1]).neighbors
+                                    .add(linkObjGraph.get(toFilterString(tempString)[0]));                    
                         }
+                
 
                         //Printing the graph in both forms (Matrix & AdjacencyList) 
                         matrixGraph.display();
                         adjacencyList.display();
+                        System.out.println("Linked Objects(DFS): ");
+
+                        DFS(linkObjGraph.get(0), linkObjGraph);
+                        System.out.println();
+                        System.out.println();
+
+                        System.out.println("Linked Objects(BFS): ");
+                        BFS(linkObjGraph.get(0), linkObjGraph);
+                        System.out.println();
+                        
                     }
                 }
             }
@@ -200,7 +248,7 @@ public class Main {
 
     }
 
-    // This graph dispalys information about the graph
+    // This funtion dispalys information about the graph
     public static void displayGraphInfo(String data) {
         if (data.startsWith("--")) {
             System.out.println(data);
@@ -208,5 +256,72 @@ public class Main {
         }
     }
 
+    // This funtion return the vertex number as an integer
+    public static int getVertex(String tempString) {
+        //Filter String 
+        String[] stringParts = tempString.split(" ");
+        int vertex = Integer.parseInt(stringParts[stringParts.length - 1]);
+
+        return vertex;
+    }
+
+    // Depth First Search Algorithm
+
+    // This following functions takes an object of class linkedObjects and performs DFS
+    public static void DFS(LinkedObjects v, ArrayList<LinkedObjects> linkObjGraph) {
+
+        // V is the current vertext of the graph
+        if (!v.processed) {
+            System.out.print(v.id + " ");
+            v.processed = true;
+        }
+
+        // Loop through the neighbors of the current vertex
+        for (LinkedObjects s : v.neighbors) {
+            if (!s.processed) {
+                DFS(s, linkObjGraph);
+            }
+        }
+
+        // Edge Case => iteratng through the entire linkedObjects when the graphs has disconnected parts to make sure every vertex is visited
+        for (LinkedObjects s : linkObjGraph) {
+            if (!s.processed) {
+                DFS(s, linkObjGraph);
+            }
+        }
+
+    }
+
+    // breadth First Search Algorithm
+
+    // This following functions takes an object of class linkedObjects and performs BFS
+    public static void BFS(LinkedObjects v, ArrayList<LinkedObjects> linkObjGraph) {
+        // Setting the status (processed) of the verticies back to false after it has been modified by the DFS function
+        for (LinkedObjects x : linkObjGraph) {
+            if (x.processed) 
+                x.processed = false;
+        }
+        // initialie a queue object
+        Queue q = new Queue();
+        // push unvisited vertex to the queue
+        q.enqueue(v);
+        // mark the vertex as visited 
+        v.processed = true;
+        // iterate through the neighboring verticies
+        while (!q.empty()) {
+            // Retriefe object from the queue
+            LinkedObjects currentVertex = q.dequeue();
+            // Print the id of the retrieved object
+            System.out.print(currentVertex.id + " ");
+            // Iterate through the neighbors of the retrieved object and push them to the queue
+            for (LinkedObjects s : currentVertex.neighbors) {
+                if (!s.processed) {
+                    q.enqueue(s);
+                    s.processed = true;
+                }
+            }
+        }
+        System.out.println();
+    }
 }
 

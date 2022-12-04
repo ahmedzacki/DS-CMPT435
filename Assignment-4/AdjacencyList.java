@@ -20,8 +20,10 @@ public class AdjacencyList {
         //Add edge to the adjacencyList
         if (!vertexStartsZero) {
             arrayList.get(vertexArray[0] - 1).inputEdge(vertexArray[1]);
+            arrayList.get(vertexArray[1] - 1).inputEdge(vertexArray[0]);
         } else {
             arrayList.get(vertexArray[0]).inputEdge(vertexArray[1]);
+            arrayList.get(vertexArray[1]).inputEdge(vertexArray[0]);
         }
     }
 
