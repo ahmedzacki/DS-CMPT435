@@ -321,6 +321,30 @@ public class Main {
                 }
             }
         }
+        // Edge case => if the graph has some disconnected parts
+        for(LinkedObjects s : linkObjGraph){
+            if(!s.processed){
+                // push unvisited vertex to the queue
+                q.enqueue(s);
+                // mark the vertex as visited 
+                s.processed = true;
+                // iterate through the neighboring verticies
+                while (!q.empty()) {
+                    // Retriefe object from the queue
+                    LinkedObjects currentVertex = q.dequeue();
+                    // Print the id of the retrieved object
+                    System.out.print(currentVertex.id + " ");
+                    // Iterate through the neighbors of the retrieved object and push them to the queue
+                    for (LinkedObjects x : currentVertex.neighbors) {
+                        if (!x.processed) {
+                            q.enqueue(x);
+                            x.processed = true;
+                        }
+                    }
+                }
+            }
+        }
+
         System.out.println();
     }
 }
