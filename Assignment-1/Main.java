@@ -7,11 +7,12 @@ public class Main {
         int data;
         Node next;
     
-        Node(int val){
-    
+        Node(int val) {
+
             this.data = val;
             this.next = null;
         }
+        
     }
 /**
  * Now we are creating a linked list to store our data
